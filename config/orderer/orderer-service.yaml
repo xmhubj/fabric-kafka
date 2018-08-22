@@ -1,0 +1,54 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blockchain-orderer0
+  labels:
+    run: blockchain-orderer0
+spec:
+  type: NodePort
+  selector:
+    name: orderer0
+  ports:
+  - protocol: TCP
+    nodePort: 31010
+    targetPort: 31010
+    port: 31010
+    name: grpc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blockchain-orderer1
+  labels:
+    run: blockchain-orderer1
+spec:
+  type: NodePort
+  selector:
+    name: orderer1
+  ports:
+  - protocol: TCP
+    nodePort: 31011
+    targetPort: 31010
+    port: 31010
+    name: grpc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blockchain-orderer2
+  labels:
+    run: blockchain-orderer2
+spec:
+  type: NodePort
+  selector:
+    name: orderer2
+  ports:
+  - protocol: TCP
+    nodePort: 31012
+    targetPort: 31010
+    port: 31010
+    name: grpc
+

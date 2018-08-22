@@ -14,16 +14,9 @@ if [ "$(kubectl get pvc | grep shared-pvc | awk '{print $2}')" != "Bound" ]; the
     echo "The Persistant Volume does not seem to exist or is not bound"
     echo "Creating Persistant Volume"
 
-    if [ "$1" == "--paid" ]; then
-        echo "You passed argument --paid. Make sure you have an IBM Cloud Kubernetes - Standard tier. Else, remove --paid option"
-        echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/createVolume-paid.yaml"
-        kubectl create -f ${KUBECONFIG_FOLDER}/createVolume-paid.yaml
-        sleep 5
-    else
-        echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/createVolume.yaml"
-        kubectl create -f ${KUBECONFIG_FOLDER}/createVolume.yaml
-        sleep 5
-    fi
+    echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/createVolume.yaml"
+    kubectl create -f ${KUBECONFIG_FOLDER}/createVolume.yaml
+    sleep 5
 
     if [ "kubectl get pvc | grep shared-pvc | awk '{print $3}'" != "shared-pv" ]; then
         echo "Success creating Persistant Volume"
@@ -36,8 +29,8 @@ fi
 
 # Copy the required files(configtx.yaml, cruypto-config.yaml, sample chaincode etc.) into volume
 echo -e "\nCreating Copy artifacts job."
-echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/copyArtifactsJob.yaml"
-kubectl create -f ${KUBECONFIG_FOLDER}/copyArtifactsJob.yaml
+echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/job/copyArtifactsJob.yaml"
+kubectl create -f ${KUBECONFIG_FOLDER}/job/copyArtifactsJob.yaml
 
 pod=$(kubectl get pods --selector=job-name=copyartifacts --output=jsonpath={.items..metadata.name})
 
@@ -77,8 +70,8 @@ echo "Copy artifacts job completed"
 
 # Generate Network artifacts using configtx.yaml and crypto-config.yaml
 echo -e "\nGenerating the required artifacts for Blockchain network"
-echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/generateArtifactsJob.yaml"
-kubectl create -f ${KUBECONFIG_FOLDER}/generateArtifactsJob.yaml
+echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/job/generateArtifactsJob.yaml"
+kubectl create -f ${KUBECONFIG_FOLDER}/job/generateArtifactsJob.yaml
 
 JOBSTATUS=$(kubectl get jobs |grep utils|awk '{print $3}')
 while [ "${JOBSTATUS}" != "1" ]; do
@@ -97,14 +90,39 @@ done
 
 # Create services for all peers, ca, orderer
 echo -e "\nCreating Services for blockchain network"
-echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/blockchain-services.yaml"
-kubectl create -f ${KUBECONFIG_FOLDER}/blockchain-services.yaml
 
+ZKCFG_FOLDER=${KUBECONFIG_FOLDER}/zookeeper
+echo "Running: kubectl create -f ${ZKCFG_FOLDER}/zk-service.yaml"
+kubectl create -f ${KUBECONFIG_FOLDER}/zookeeper/zk-service.yaml
+echo "Running: kubectl create -f ${ZKCFG_FOLDER}/zk-deployment.yaml"
+sleep 5
 
-# Create peers, ca, orderer using Kubernetes Deployments
-echo -e "\nCreating new Deployment to create four peers in network"
-echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/peersDeployment.yaml"
-kubectl create -f ${KUBECONFIG_FOLDER}/peersDeployment.yaml
+KAFKACFG_FOLDER=${KUBECONFIG_FOLDER}/kafka
+echo "Running: kubectl create -f ${KAFKACFG_FOLDER}/kafka-service.yaml"
+kubectl create -f ${KAFKACFG_FOLDER}/kafka-service.yaml
+echo "Running: kubectl create -f ${KAFKACFG_FOLDER}/kafka-deployment.yaml"
+kubectl create -f ${KAFKACFG_FOLDER}/kafka-deployment.yaml
+sleep 5
+
+CACFG_FOLDER=${KUBECONFIG_FOLDER}/ca
+echo "Running: kubectl create -f ${CACFG_FOLDER}/ca-service.yaml"
+kubectl create -f ${CACFG_FOLDER}/ca-service.yaml
+echo "Running: kubectl create -f ${CACFG_FOLDER}/ca-deployment.yaml"
+kubectl create -f ${CACFG_FOLDER}/ca-deployment.yaml
+sleep 5
+
+ORDERERCFG_FOLDER=${KUBECONFIG_FOLDER}/orderer
+echo "Running: kubectl create -f ${ORDERERCFG_FOLDER}/orderer-service.yaml"
+kubectl create -f ${ORDERERCFG_FOLDER}/orderer-service.yaml
+echo "Running: kubectl create -f ${ORDERERCFG_FOLDER}/orderer-deployment.yaml"
+kubectl create -f ${ORDERERCFG_FOLDER}/orderer-deployment.yaml
+sleep 5
+
+PEERCFG_FLODER=${KUBECONFIG_FOLDER}/peer
+echo "Running: kubectl create -f ${PEERCFG_FLODER}/peer-service.yaml"
+kubectl create -f ${PEERCFG_FLODER}/peer-service.yaml
+echo "Running: kubectl create -f ${PEERCFG_FLODER}/peer-deployment.yaml"
+kubectl create -f ${PEERCFG_FLODER}/peer-deployment.yaml
 
 echo "Checking if all deployments are ready"
 
@@ -121,8 +139,8 @@ sleep 15
 
 # Generate channel artifacts using configtx.yaml and then create channel
 echo -e "\nCreating channel transaction artifact and a channel"
-echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/create_channel.yaml"
-kubectl create -f ${KUBECONFIG_FOLDER}/create_channel.yaml
+echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/job/create_channel.yaml"
+kubectl create -f ${KUBECONFIG_FOLDER}/job/create_channel.yaml
 
 JOBSTATUS=$(kubectl get jobs |grep createchannel |awk '{print $3}')
 while [ "${JOBSTATUS}" != "1" ]; do
@@ -140,7 +158,7 @@ echo "Create Channel Completed Successfully"
 # Join all peers on a channel
 echo -e "\nCreating joinchannel job"
 echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/join_channel.yaml"
-kubectl create -f ${KUBECONFIG_FOLDER}/join_channel.yaml
+kubectl create -f ${KUBECONFIG_FOLDER}/job/join_channel.yaml
 
 JOBSTATUS=$(kubectl get jobs |grep joinchannel |awk '{print $3}')
 while [ "${JOBSTATUS}" != "1" ]; do
@@ -158,7 +176,7 @@ echo "Join Channel Completed Successfully"
 # Install chaincode on each peer
 echo -e "\nCreating installchaincode job"
 echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/chaincode_install.yaml"
-kubectl create -f ${KUBECONFIG_FOLDER}/chaincode_install.yaml
+kubectl create -f ${KUBECONFIG_FOLDER}/job/chaincode_install.yaml
 
 JOBSTATUS=$(kubectl get jobs |grep chaincodeinstall |awk '{print $3}')
 while [ "${JOBSTATUS}" != "1" ]; do
@@ -176,7 +194,7 @@ echo "Chaincode Install Completed Successfully"
 # Instantiate chaincode on channel
 echo -e "\nCreating chaincodeinstantiate job"
 echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/chaincode_instantiate.yaml"
-kubectl create -f ${KUBECONFIG_FOLDER}/chaincode_instantiate.yaml
+kubectl create -f ${KUBECONFIG_FOLDER}/job/chaincode_instantiate.yaml
 
 JOBSTATUS=$(kubectl get jobs |grep chaincodeinstantiate |awk '{print $3}')
 while [ "${JOBSTATUS}" != "1" ]; do

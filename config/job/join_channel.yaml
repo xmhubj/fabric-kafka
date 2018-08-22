@@ -25,9 +25,9 @@ spec:
         - name: CORE_PEER_NETWORKID
           value: nid1
         - name: ORDERER_URL
-          value: blockchain-orderer:31010
+          value: blockchain-orderer0:31010
         - name: CORE_PEER_ADDRESS
-          value: blockchain-org1peer1:30110
+          value: blockchain-org1peer0:30110
         - name: CORE_PEER_LOCALMSPID
           value: Org1MSP
         - name: CORE_PEER_MSPID
@@ -54,17 +54,17 @@ spec:
         - name: CORE_PEER_NETWORKID
           value: nid1
         - name: ORDERER_URL
-          value: blockchain-orderer:31010
+          value: blockchain-orderer0:31010
         - name: CORE_PEER_ADDRESS
-          value: blockchain-org2peer1:30210
+          value: blockchain-org1peer1:30210
         - name: CORE_PEER_LOCALMSPID
-          value: Org2MSP
+          value: Org1MSP
         - name: CORE_PEER_MSPID
-          value: Org2MSP
+          value: Org1MSP
         - name: CORE_LOGGING_LEVEL
           value: debug
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+          value: /shared/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
         - name: FABRIC_CFG_PATH
           value: /etc/hyperledger/fabric
         - name: GODEBUG
@@ -83,17 +83,17 @@ spec:
         - name: CORE_PEER_NETWORKID
           value: nid1
         - name: ORDERER_URL
-          value: blockchain-orderer:31010
+          value: blockchain-orderer0:31010
         - name: CORE_PEER_ADDRESS
-          value: blockchain-org3peer1:30310
+          value: blockchain-org2peer0:30310
         - name: CORE_PEER_LOCALMSPID
-          value: Org3MSP
+          value: Org2MSP
         - name: CORE_PEER_MSPID
-          value: Org3MSP
+          value: Org2MSP
         - name: CORE_LOGGING_LEVEL
           value: debug
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
         - name: FABRIC_CFG_PATH
           value: /etc/hyperledger/fabric
         - name: GODEBUG
@@ -112,17 +112,17 @@ spec:
         - name: CORE_PEER_NETWORKID
           value: nid1
         - name: ORDERER_URL
-          value: blockchain-orderer:31010
+          value: blockchain-orderer0:31010
         - name: CORE_PEER_ADDRESS
-          value: blockchain-org4peer1:30410
+          value: blockchain-org2peer1:30410
         - name: CORE_PEER_LOCALMSPID
-          value: Org4MSP
+          value: Org2MSP
         - name: CORE_PEER_MSPID
-          value: Org4MSP
+          value: Org2MSP
         - name: CORE_LOGGING_LEVEL
           value: debug
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org4.example.com/users/Admin@org4.example.com/msp
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
         - name: FABRIC_CFG_PATH
           value: /etc/hyperledger/fabric
         - name: GODEBUG

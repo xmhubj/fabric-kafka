@@ -1,0 +1,77 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zookeeper0
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: zookeeper0
+    spec:
+      containers:
+      - name: zookeeper0
+        image: hyperledger/fabric-zookeeper
+        env:
+        - name: ZOO_MY_ID
+          value: "1"
+        - name: ZOO_SERVERS
+          value: server.1=zk0:2888:3888 server.2=zk1:2888:3888 server.3=zk2:2888:3888
+        ports:
+        - containerPort: 2181
+        - containerPort: 2888
+        - containerPort: 3888
+      restartPolicy: Always
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zookeeper1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: zookeeper1
+    spec:
+      containers:
+      - name: zookeeper1
+        image: hyperledger/fabric-zookeeper
+        env:
+        - name: ZOO_MY_ID
+          value: "2"
+        - name: ZOO_SERVERS
+          value: server.1=zk0:2888:3888 server.2=zk1:2888:3888 server.3=zk2:2888:3888
+        ports:
+        - containerPort: 2181
+        - containerPort: 2888
+        - containerPort: 3888
+      restartPolicy: Always
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zookeeper2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: zookeeper2
+    spec:
+      containers:
+      - name: zookeeper2
+        image: hyperledger/fabric-zookeeper
+        env:
+        - name: ZOO_MY_ID
+          value: "3"
+        - name: ZOO_SERVERS
+          value: server.1=zk0:2888:3888 server.2=zk1:2888:3888 server.3=zk2:2888:3888
+        ports:
+        - containerPort: 2181
+        - containerPort: 2888
+        - containerPort: 3888
+      restartPolicy: Always

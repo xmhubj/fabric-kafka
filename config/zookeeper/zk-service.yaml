@@ -1,0 +1,56 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zk0
+  labels:
+    run: zk0
+spec:
+  selector:
+    name: zookeeper0
+  ports:
+  - name: "server"
+    port: 2888
+  - name: "leader-election"
+    port: 3888
+  - name: "client"
+    port: 2181
+  clusterIP: None
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zk1
+  labels:
+    run: zk1
+spec:
+  selector:
+    name: zookeeper1
+  ports:
+  - name: "server"
+    port: 2888
+  - name: "leader-election"
+    port: 3888
+  - name: "client"
+    port: 2181
+  clusterIP: None
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zk2
+  labels:
+    run: zk2
+spec:
+  selector:
+    name: zookeeper2
+  ports:
+  - name: "server"
+    port: 2888
+  - name: "leader-election"
+    port: 3888
+  - name: "client"
+    port: 2181
+  clusterIP: None
