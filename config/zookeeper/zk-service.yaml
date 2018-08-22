@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: zk0
+  name: zk0-hs
   labels:
-    run: zk0
+    run: zk0-hs
 spec:
   selector:
     name: zookeeper0
@@ -21,9 +21,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: zk1
+  name: zk1-hs
   labels:
-    run: zk1
+    run: zk1-hs
 spec:
   selector:
     name: zookeeper1
@@ -40,9 +40,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: zk2
+  name: zk2-hs
   labels:
-    run: zk2
+    run: zk2-hs
 spec:
   selector:
     name: zookeeper2

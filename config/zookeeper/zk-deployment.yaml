@@ -10,6 +10,7 @@ spec:
       labels:
         name: zookeeper0
     spec:
+      hostname: zk0-hs
       containers:
       - name: zookeeper0
         image: hyperledger/fabric-zookeeper
@@ -17,7 +18,7 @@ spec:
         - name: ZOO_MY_ID
           value: "1"
         - name: ZOO_SERVERS
-          value: server.1=zk0:2888:3888 server.2=zk1:2888:3888 server.3=zk2:2888:3888
+          value: server.1=zk0-hs:2888:3888 server.2=zk1-hs:2888:3888 server.3=zk2-hs:2888:3888
         ports:
         - containerPort: 2181
         - containerPort: 2888
@@ -36,6 +37,7 @@ spec:
       labels:
         name: zookeeper1
     spec:
+      hostname: zk1-hs
       containers:
       - name: zookeeper1
         image: hyperledger/fabric-zookeeper
@@ -43,7 +45,7 @@ spec:
         - name: ZOO_MY_ID
           value: "2"
         - name: ZOO_SERVERS
-          value: server.1=zk0:2888:3888 server.2=zk1:2888:3888 server.3=zk2:2888:3888
+          value: server.1=zk0-hs:2888:3888 server.2=zk1-hs:2888:3888 server.3=zk2-hs:2888:3888
         ports:
         - containerPort: 2181
         - containerPort: 2888
@@ -62,6 +64,7 @@ spec:
       labels:
         name: zookeeper2
     spec:
+      hostname: zk2-hs
       containers:
       - name: zookeeper2
         image: hyperledger/fabric-zookeeper
@@ -69,7 +72,7 @@ spec:
         - name: ZOO_MY_ID
           value: "3"
         - name: ZOO_SERVERS
-          value: server.1=zk0:2888:3888 server.2=zk1:2888:3888 server.3=zk2:2888:3888
+          value: server.1=zk0-hs:2888:3888 server.2=zk1-hs:2888:3888 server.3=zk2-hs:2888:3888
         ports:
         - containerPort: 2181
         - containerPort: 2888

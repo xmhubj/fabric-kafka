@@ -19,7 +19,6 @@ spec:
       - name: dockersocket
         hostPath:
           path: /var/run/docker.sock
-
       containers:
       - name: org1peer0
         image: hyperledger/fabric-peer:x86_64-1.1.0
@@ -34,7 +33,7 @@ spec:
         - name: CORE_PEER_ADDRESS
           value: blockchain-org1peer0:30110
         - name: CORE_PEER_CHAINCODEADDRESS
-          vaule: blockchain-org1peer0:30111
+          value: blockchain-org1peer0:30111
         - name: CORE_PEER_CHAINCODELISTENADDRESS
           value: 0.0.0.0:30111
         - name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
@@ -106,7 +105,6 @@ spec:
       - name: dockersocket
         hostPath:
           path: /var/run/docker.sock
-
       containers:
       - name: org1peer1
         image: hyperledger/fabric-peer:x86_64-1.1.0
@@ -195,7 +193,6 @@ spec:
       - name: dockersocket
         hostPath:
           path: /var/run/docker.sock
-
       containers:
       - name: org2peer0
         image: hyperledger/fabric-peer:x86_64-1.1.0
@@ -282,7 +279,6 @@ spec:
       - name: dockersocket
         hostPath:
           path: /var/run/docker.sock
-
       containers:
       - name: org2peer1
         image: hyperledger/fabric-peer:x86_64-1.1.0
