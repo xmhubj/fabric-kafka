@@ -93,8 +93,9 @@ echo -e "\nCreating Services for blockchain network"
 
 ZKCFG_FOLDER=${KUBECONFIG_FOLDER}/zookeeper
 echo "Running: kubectl create -f ${ZKCFG_FOLDER}/zk-service.yaml"
-kubectl create -f ${KUBECONFIG_FOLDER}/zookeeper/zk-service.yaml
+kubectl create -f ${ZKCFG_FOLDER}/zk-service.yaml
 echo "Running: kubectl create -f ${ZKCFG_FOLDER}/zk-deployment.yaml"
+kubectl create -f ${ZKCFG_FOLDER}/zk-deployment.yaml
 sleep 5
 
 KAFKACFG_FOLDER=${KUBECONFIG_FOLDER}/kafka

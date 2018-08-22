@@ -33,7 +33,7 @@ kubectl delete --ignore-not-found=true -f ${KAFKACFG_FOLDER}/kafka-service.yaml
 echo "Deleting Zookeeper services..."
 ZKCFG_FOLDER=${KUBECONFIG_FOLDER}/zookeeper
 kubectl delete --ignore-not-found=true -f ${ZKCFG_FOLDER}/zk-deployment.yaml
-kubectl delete --ignore-not-found=true -f ${ZKCFG_FOLDER}/zookeeper/zk-service.yaml
+kubectl delete --ignore-not-found=true -f ${ZKCFG_FOLDER}/zk-service.yaml
 
 echo "Deleting volumes..."
 kubectl delete --ignore-not-found=true -f ${KUBECONFIG_FOLDER}/createVolume.yaml
