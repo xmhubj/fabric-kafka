@@ -1,4 +1,4 @@
-# Fabric Network with Fafka
+# Fabric Network with Kafka
 
 Hyperledger Fabric Network with Kafka Consensus on Kubernetes.
 
