@@ -99,8 +99,6 @@ Organizations:
             - Host: blockchain-org2peer0
               Port: 30310
 
-              
-################################################################################
 #
 #   SECTION: Orderer
 #
@@ -115,7 +113,9 @@ Orderer: &OrdererDefaults
     OrdererType: kafka
 
     Addresses:
-        - blockchain-orderer:31010
+        - blockchain-orderer0:31010
+        - blockchain-orderer1:31010
+        - blockchain-orderer2:31010
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
