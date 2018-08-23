@@ -32,10 +32,14 @@ spec:
           value: org1peer0
         - name: CORE_PEER_ADDRESS
           value: blockchain-org1peer0:30110
+        - name: CORE_PEER_LISTENADDRESS
+          value: 0.0.0.0:30110
         - name: CORE_PEER_CHAINCODEADDRESS
           value: blockchain-org1peer0:30111
         - name: CORE_PEER_CHAINCODELISTENADDRESS
           value: 0.0.0.0:30111
+        - name: CORE_PEER_GOSSIP_BOOTSTRAP
+          value: blockchain-org1peer0:30110
         - name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
           value: blockchain-org1peer0:30110
         - name: CORE_PEER_GOSSIP_USELEADERELECTION
@@ -118,6 +122,8 @@ spec:
           value: nid1
         - name: CORE_PEER_ADDRESS
           value: blockchain-org1peer1:30210
+        - name: CORE_PEER_LISTENADDRESS
+          value: 0.0.0.0:30210
         - name: CORE_PEER_CHAINCODEADDRESS
           value: blockchain-org1peer1:30211
         - name: CORE_PEER_CHAINCODELISTENADDRESS
@@ -206,10 +212,14 @@ spec:
           value: nid1
         - name: CORE_PEER_ADDRESS
           value: blockchain-org2peer0:30310
+        - name: CORE_PEER_LISTENADDRESS
+          value: 0.0.0.0:30310
         - name: CORE_PEER_CHAINCODEADDRESS
           value: blockchain-org2peer0:30311
         - name: CORE_PEER_CHAINCODELISTENADDRESS
           value: 0.0.0.0:30311
+        - name: CORE_PEER_GOSSIP_BOOTSTRAP
+          value: blockchain-org2peer0:30310
         - name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
           value: blockchain-org2peer0:30310
         - name: CORE_PEER_GOSSIP_USELEADERELECTION
@@ -292,6 +302,8 @@ spec:
           value: nid1
         - name: CORE_PEER_ADDRESS
           value: blockchain-org2peer1:30410
+        - name: CORE_PEER_LISTENADDRESS
+          value: 0.0.0.0:30410
         - name: CORE_PEER_CHAINCODEADDRESS
           value: blockchain-org2peer1:30411
         - name: CORE_PEER_CHAINCODELISTENADDRESS
