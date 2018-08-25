@@ -10,15 +10,20 @@
 Profiles:
 
     TwoOrgsOrdererGenesis:
+        Capabilities:
+            <<: *ChannelCapabilities
         Orderer:
             <<: *OrdererDefaults
             Organizations:
                 - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
         Consortiums:
             SampleConsortium:
                 Organizations:
                     - *Org1
                     - *Org2
+
     TwoOrgsChannel:
         Consortium: SampleConsortium
         Application:
@@ -26,6 +31,8 @@ Profiles:
             Organizations:
                 - *Org1
                 - *Org2
+            Capabilities:
+                <<: *ApplicationCapabilities
 
 ################################################################################
 #
@@ -42,18 +49,18 @@ Organizations:
     - &OrdererOrg
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: OrdererOrg
+        Name: Ordererorg1MSP
 
         # ID to load the MSP definition as
-        ID: OrdererMSP
+        ID: Ordererorg1MSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: crypto-config/ordererOrganizations/example.com/msp
+        MSPDir: crypto-config/ordererOrganizations/ordererorg1/msp
 
         # AdminPrincipal dictates the type of principal used for an organization's Admins policy
         # Today, only the values of Role.ADMIN ad Role.MEMBER are accepted, which indicates a principal
         # of role type ADMIN and role type MEMBER respectively
-        AdminPrincipal: Role.MEMBER
+        #AdminPrincipal: Role.MEMBER
 
     - &Org1
         # DefaultOrg defines the organization which is used in the sampleconfig
@@ -63,19 +70,19 @@ Organizations:
         # ID to load the MSP definition as
         ID: Org1MSP
 
-        MSPDir: crypto-config/peerOrganizations/org1.example.com/msp
+        MSPDir: crypto-config/peerOrganizations/org1/msp
 
         # AdminPrincipal dictates the type of principal used for an organization's Admins policy
         # Today, only the values of Role.ADMIN ad Role.MEMBER are accepted, which indicates a principal
         # of role type ADMIN and role type MEMBER respectively
-        AdminPrincipal: Role.MEMBER
+        #AdminPrincipal: Role.MEMBER
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: blockchain-org1peer0
-              Port: 30110
+            - Host: peer0.org1
+              Port: 7051
 
     - &Org2
         # DefaultOrg defines the organization which is used in the sampleconfig
@@ -85,7 +92,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: Org2MSP
 
-        MSPDir: crypto-config/peerOrganizations/org2.example.com/msp
+        MSPDir: crypto-config/peerOrganizations/org2/msp
 
         # AdminPrincipal dictates the type of principal used for an organization's Admins policy
         # Today, only the values of Role.ADMIN ad Role.MEMBER are accepted, which indicates a principal
@@ -96,9 +103,12 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: blockchain-org2peer0
-              Port: 30310
+            - Host: peer0.org2
+              Port: 7051
 
+
+
+################################################################################
 #
 #   SECTION: Orderer
 #
@@ -113,9 +123,9 @@ Orderer: &OrdererDefaults
     OrdererType: kafka
 
     Addresses:
-        - blockchain-orderer0:31010
-        - blockchain-orderer1:31010
-        - blockchain-orderer2:31010
+        - orderer0.ordererorg1:7050
+        - orderer1.ordererorg1:7050
+        - orderer2.ordererorg1:7050
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
@@ -128,7 +138,7 @@ Orderer: &OrdererDefaults
 
         # Absolute Max Bytes: The absolute maximum number of bytes allowed for
         # the serialized messages in a batch.
-        AbsoluteMaxBytes: 99 MB
+        AbsoluteMaxBytes: 98 MB
 
         # Preferred Max Bytes: The preferred maximum number of bytes allowed for
         # the serialized messages in a batch. A message larger than the preferred
@@ -139,14 +149,16 @@ Orderer: &OrdererDefaults
         # Brokers: A list of Kafka brokers to which the orderer connects
         # NOTE: Use IP:port notation
         Brokers:
-            - kafka0:9092
-            - kafka1:9092
-            - kafka2:9092
-            - kafka3:9092
+            - kafka-0.broker.kafka:9092
+            - kafka-1.broker.kafka:9092
+            - kafka-2.broker.kafka:9092
+            - kafka-3.broker.kafka:9092
 
     # Organizations is the list of orgs which are defined as participants on
     # the orderer side of the network
     Organizations:
+
+
 
 ################################################################################
 #
@@ -162,3 +174,12 @@ Application: &ApplicationDefaults
     # the application side of the network
     Organizations:
 
+
+
+Capabilities:
+    Global: &ChannelCapabilities
+        V1_1: true
+    Orderer: &OrdererCapabilities
+        V1_1: true
+    Application: &ApplicationCapabilities
+        V1_1: true

@@ -1,0 +1,63 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: shared-pv
+  labels:
+    type: local
+    name: sharedvolume
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/tmp/fabric"
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: shared-org1
+  labels:
+    type: local
+    name: shared-org1
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/tmp/fabric"
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: shared-org2
+  labels:
+    type: local
+    name: shared-org2
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/tmp/fabric"
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: shared-ordererorg1
+  labels:
+    type: local
+    name: shared-ordererorg1
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/tmp/fabric"

@@ -2,6 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
+  namespace: fabric
   name: chaincodeinstall
 spec:
   backoffLimit: 1
@@ -17,7 +18,6 @@ spec:
       containers:
       - name: chaincodeinstall1
         image: hyperledger/fabric-tools:x86_64-1.1.0
-        imagePullPolicy: Always
         command: ["sh", "-c", "echo $GOPATH; cp -r /shared/artifacts/chaincode $GOPATH/src/; ls $GOPATH/src; peer chaincode install -n ${CHAINCODE_NAME} -v ${CHAINCODE_VERSION} -p chaincode_example02/"]
         env:
         - name: CHAINCODE_NAME
@@ -27,11 +27,13 @@ spec:
         - name: FABRIC_CFG_PATH
           value: /etc/hyperledger/fabric
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+          value: /shared/crypto-config/peerOrganizations/org1/users/Admin@org1/msp
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org1/peers/peer0.org1/tls/ca.crt
         - name: CORE_PEER_LOCALMSPID
           value: Org1MSP
         - name: CORE_PEER_ADDRESS
-          value: blockchain-org1peer0:30110
+          value: peer0.org1:7051
         - name: GODEBUG
           value: "netdns=go"
         volumeMounts:
@@ -40,7 +42,6 @@ spec:
 
       - name: chaincodeinstall2
         image: hyperledger/fabric-tools:x86_64-1.1.0
-        imagePullPolicy: Always
         command: ["sh", "-c", "echo $GOPATH; cp -r /shared/artifacts/chaincode $GOPATH/src/; ls $GOPATH/src; peer chaincode install -n ${CHAINCODE_NAME} -v ${CHAINCODE_VERSION} -p chaincode_example02/"]
         env:
         - name: CHAINCODE_NAME
@@ -50,11 +51,13 @@ spec:
         - name: FABRIC_CFG_PATH
           value: /etc/hyperledger/fabric
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+          value: /shared/crypto-config/peerOrganizations/org1/users/Admin@org1/msp
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org1/peers/peer1.org1/tls/ca.crt
         - name: CORE_PEER_LOCALMSPID
           value: Org1MSP
         - name: CORE_PEER_ADDRESS
-          value: blockchain-org1peer1:30210
+          value: peer1.org1:7051
         - name: GODEBUG
           value: "netdns=go"
         volumeMounts:
@@ -63,7 +66,6 @@ spec:
 
       - name: chaincodeinstall3
         image: hyperledger/fabric-tools:x86_64-1.1.0
-        imagePullPolicy: Always
         command: ["sh", "-c", "echo $GOPATH; cp -r /shared/artifacts/chaincode $GOPATH/src/; ls $GOPATH/src; peer chaincode install -n ${CHAINCODE_NAME} -v ${CHAINCODE_VERSION} -p chaincode_example02/"]
         env:
         - name: CHAINCODE_NAME
@@ -73,11 +75,13 @@ spec:
         - name: FABRIC_CFG_PATH
           value: /etc/hyperledger/fabric
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+          value: /shared/crypto-config/peerOrganizations/org2/users/Admin@org2/msp
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org2/peers/peer0.org2/tls/ca.crt
         - name: CORE_PEER_LOCALMSPID
           value: Org2MSP
         - name: CORE_PEER_ADDRESS
-          value: blockchain-org2peer0:30310
+          value: peer0.org2:7051
         - name: GODEBUG
           value: "netdns=go"
         volumeMounts:
@@ -86,7 +90,6 @@ spec:
 
       - name: chaincodeinstall4
         image: hyperledger/fabric-tools:x86_64-1.1.0
-        imagePullPolicy: Always
         command: ["sh", "-c", "echo $GOPATH; cp -r /shared/artifacts/chaincode $GOPATH/src/; ls $GOPATH/src; peer chaincode install -n ${CHAINCODE_NAME} -v ${CHAINCODE_VERSION} -p chaincode_example02/"]
         env:
         - name: CHAINCODE_NAME
@@ -96,11 +99,13 @@ spec:
         - name: FABRIC_CFG_PATH
           value: /etc/hyperledger/fabric
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+          value: /shared/crypto-config/peerOrganizations/org2/users/Admin@org2/msp
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org2/peers/peer1.org2/tls/ca.crt
         - name: CORE_PEER_LOCALMSPID
           value: Org2MSP
         - name: CORE_PEER_ADDRESS
-          value: blockchain-org2peer1:30410
+          value: peer1.org2:7051
         - name: GODEBUG
           value: "netdns=go"
         volumeMounts:

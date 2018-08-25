@@ -1,7 +1,8 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: fabric-tools
+  namespace: org1
+  name: cli
 spec:
   replicas: 1
   strategy: {}
@@ -15,7 +16,7 @@ spec:
         persistentVolumeClaim:
           claimName: shared-pvc
       containers:
-      - name: fabric-tools
+      - name: cli
         image: hyperledger/fabric-tools:x86_64-1.1.0
         workingDir: /opt/gopath/src/github.com/hyperledger/fabric/peer
         command: [ "/bin/bash", "-c", "--" ]
@@ -28,13 +29,17 @@ spec:
         - name: FABRIC_CFG_PATH
           value: /etc/hyperledger/fabric
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+          value: /shared/crypto-config/peerOrganizations/org1/users/Admin@org1/msp
         - name: CORE_PEER_LOCALMSPID
           value: Org1MSP
         - name: CORE_PEER_ADDRESS
-          value: blockchain-org1peer0:30110
+          value: peer0.org1:7051
         - name: CORE_PEER_TLS_ENABLED
           value: "false"
+        - name: CORE_VM_ENDPOINT
+          value: unix:///host/var/run/docker.sock
+        - name: CORE_LOGGING_LEVEL
+          value: DEBUG
         - name: GOPATH
           value: /opt/gopath
         - name: GODEBUG

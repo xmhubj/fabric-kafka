@@ -2,89 +2,126 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: blockchain-org1peer0
-  labels:
-    run: blockchain-org1peer0
+  namespace: org1
+  name: peer0
 spec:
-  type: NodePort
   selector:
-    name: org1peer0
+    app: hyperledger
+    role: peer
+    peer-id: peer0
+    org: org1
+  type: NodePort
   ports:
-  - protocol: TCP
-    nodePort: 30110
-    targetPort: 30110
-    port: 30110
-    name: grpc
-  - protocol: TCP
-    nodePort: 30111
-    targetPort: 30111
-    port: 30111
-    name: events
+  - name: externale-listen-endpoint
+    protocol: TCP
+    port: 7051
+    targetPort: 7051
+    nodePort: 30001
+
+  - name: chaincode-listen
+    protocol: TCP
+    port: 7052
+    targetPort: 7052
+    nodePort: 30002
+
+  - name: event-listen
+    protocol: TCP
+    port: 7053
+    targetPort: 7053
+    nodePort: 30003
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: blockchain-org1peer1
-  labels:
-    run: blockchain-org1peer1
+  namespace: org1
+  name: peer1
 spec:
-  type: NodePort
   selector:
-    name: org1peer1
+    app: hyperledger
+    role: peer
+    peer-id: peer1
+    org: org1
+  type: NodePort
   ports:
-  - protocol: TCP
-    nodePort: 30210
-    targetPort: 30210
-    port: 30210
-    name: grpc
-  - protocol: TCP
-    nodePort: 30211
-    targetPort: 30211
-    port: 30211
-    name: events
+  - name: externale-listen-endpoint
+    protocol: TCP
+    port: 7051
+    targetPort: 7051
+    nodePort: 30004
+
+  - name: chaincode-listen
+    protocol: TCP
+    port: 7052
+    targetPort: 7052
+    nodePort: 30005
+
+  - name: event-listen
+    protocol: TCP
+    port: 7053
+    targetPort: 7053
+    nodePort: 30006
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: blockchain-org2peer0
-  labels:
-    run: blockchain-org2peer0
+  namespace: org2
+  name: peer0
 spec:
-  type: NodePort
   selector:
-    name: org2peer0
+    app: hyperledger
+    role: peer
+    peer-id: peer0
+    org: org2
+  type: NodePort
   ports:
-  - protocol: TCP
-    nodePort: 30310
-    targetPort: 30310
-    port: 30310
-    name: grpc
-  - protocol: TCP
-    nodePort: 30311
-    targetPort: 30311
-    port: 30311
-    name: events
+  - name: externale-listen-endpoint
+    protocol: TCP
+    port: 7051
+    targetPort: 7051
+    nodePort: 30101
+
+  - name: chaincode-listen
+    protocol: TCP
+    port: 7052
+    targetPort: 7052
+    nodePort: 30102
+
+  - name: event-listen
+    protocol: TCP
+    port: 7053
+    targetPort: 7053
+    nodePort: 30103
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: blockchain-org2peer1
-  labels:
-    run: blockchain-org2peer1
+  namespace: org2
+  name: peer1
 spec:
-  type: NodePort
   selector:
-    name: org2peer1
+    app: hyperledger
+    role: peer
+    peer-id: peer1
+    org: org2
+  type: NodePort
   ports:
-  - protocol: TCP
-    nodePort: 30410
-    targetPort: 30410
-    port: 30410
-    name: grpc
-  - protocol: TCP
-    nodePort: 30411
-    targetPort: 30411
-    port: 30411
-    name: events
+  - name: externale-listen-endpoint
+    protocol: TCP
+    port: 7051
+    targetPort: 7051
+    nodePort: 30104
+
+  - name: chaincode-listen
+    protocol: TCP
+    port: 7052
+    targetPort: 7052
+    nodePort: 30105
+
+  - name: event-listen
+    protocol: TCP
+    port: 7053
+    targetPort: 7053
+    nodePort: 30106

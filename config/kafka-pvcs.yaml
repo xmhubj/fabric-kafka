@@ -1,0 +1,67 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: datadir-kafka-0
+  namespace: kafka
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 19Gi
+  selector:
+    matchLabels:
+      app: kafka
+      podindex: "0"
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: datadir-kafka-1
+  namespace: kafka
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 19Gi
+  selector:
+    matchLabels:
+      app: kafka
+      podindex: "1"
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: datadir-kafka-2
+  namespace: kafka
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 19Gi
+  selector:
+    matchLabels:
+      app: kafka
+      podindex: "2"
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: datadir-kafka-3
+  namespace: kafka
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 19Gi
+  selector:
+    matchLabels:
+      app: kafka
+      podindex: "3"

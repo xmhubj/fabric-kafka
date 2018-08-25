@@ -2,6 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
+  namespace: fabric
   name: joinchannel
 spec:
   backoffLimit: 1
@@ -17,25 +18,22 @@ spec:
       containers:
       - name: joinchannel1
         image: hyperledger/fabric-peer:x86_64-1.1.0
-        imagePullPolicy: Always
         command: ["sh", "-c", "peer channel fetch newest -o ${ORDERER_URL} -c ${CHANNEL_NAME} && peer channel join -b ${CHANNEL_NAME}_newest.block "]
         env:
         - name: CHANNEL_NAME
-          value: channel1
-        - name: CORE_PEER_NETWORKID
-          value: nid1
+          value: mychannel
         - name: ORDERER_URL
-          value: blockchain-orderer0:31010
+          value: orderer0.ordererorg1:7050
         - name: CORE_PEER_ADDRESS
-          value: blockchain-org1peer0:30110
+          value: peer0.org1:7051
         - name: CORE_PEER_LOCALMSPID
-          value: Org1MSP
-        - name: CORE_PEER_MSPID
           value: Org1MSP
         - name: CORE_LOGGING_LEVEL
           value: debug
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+          value: /shared/crypto-config/peerOrganizations/org1/users/Admin@org1/msp
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org1/peers/peer0.org1/tls/ca.crt
         - name: FABRIC_CFG_PATH
           value: /etc/hyperledger/fabric
         - name: GODEBUG
@@ -46,25 +44,22 @@ spec:
 
       - name: joinchannel2
         image: hyperledger/fabric-peer:x86_64-1.1.0
-        imagePullPolicy: Always
         command: ["sh", "-c", "peer channel fetch newest -o ${ORDERER_URL} -c ${CHANNEL_NAME} && peer channel join -b ${CHANNEL_NAME}_newest.block "]
         env:
         - name: CHANNEL_NAME
-          value: channel1
-        - name: CORE_PEER_NETWORKID
-          value: nid1
+          value: mychannel
         - name: ORDERER_URL
-          value: blockchain-orderer0:31010
+          value: orderer0.ordererorg1:7050
         - name: CORE_PEER_ADDRESS
-          value: blockchain-org1peer1:30210
+          value: peer1.org1:7051
         - name: CORE_PEER_LOCALMSPID
-          value: Org1MSP
-        - name: CORE_PEER_MSPID
           value: Org1MSP
         - name: CORE_LOGGING_LEVEL
           value: debug
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+          value: /shared/crypto-config/peerOrganizations/org1/users/Admin@org1/msp
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org1/peers/peer1.org1/tls/ca.crt
         - name: FABRIC_CFG_PATH
           value: /etc/hyperledger/fabric
         - name: GODEBUG
@@ -75,25 +70,22 @@ spec:
 
       - name: joinchannel3
         image: hyperledger/fabric-peer:x86_64-1.1.0
-        imagePullPolicy: Always
         command: ["sh", "-c", "peer channel fetch newest -o ${ORDERER_URL} -c ${CHANNEL_NAME} && peer channel join -b ${CHANNEL_NAME}_newest.block "]
         env:
         - name: CHANNEL_NAME
-          value: channel1
-        - name: CORE_PEER_NETWORKID
-          value: nid1
+          value: mychannel
         - name: ORDERER_URL
-          value: blockchain-orderer0:31010
+          value: orderer0.ordererorg1:7050
         - name: CORE_PEER_ADDRESS
-          value: blockchain-org2peer0:30310
+          value: peer0.org2:7051
         - name: CORE_PEER_LOCALMSPID
-          value: Org2MSP
-        - name: CORE_PEER_MSPID
           value: Org2MSP
         - name: CORE_LOGGING_LEVEL
           value: debug
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+          value: /shared/crypto-config/peerOrganizations/org2/users/Admin@org2/msp
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org2/peers/peer0.org2/tls/ca.crt
         - name: FABRIC_CFG_PATH
           value: /etc/hyperledger/fabric
         - name: GODEBUG
@@ -104,25 +96,22 @@ spec:
 
       - name: joinchannel4
         image: hyperledger/fabric-peer:x86_64-1.1.0
-        imagePullPolicy: Always
         command: ["sh", "-c", "peer channel fetch newest -o ${ORDERER_URL} -c ${CHANNEL_NAME} && peer channel join -b ${CHANNEL_NAME}_newest.block "]
         env:
         - name: CHANNEL_NAME
-          value: channel1
-        - name: CORE_PEER_NETWORKID
-          value: nid1
+          value: mychannel
         - name: ORDERER_URL
-          value: blockchain-orderer0:31010
+          value: orderer0.ordererorg1:7050
         - name: CORE_PEER_ADDRESS
-          value: blockchain-org2peer1:30410
+          value: peer1.org2:7051
         - name: CORE_PEER_LOCALMSPID
-          value: Org2MSP
-        - name: CORE_PEER_MSPID
           value: Org2MSP
         - name: CORE_LOGGING_LEVEL
           value: debug
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+          value: /shared/crypto-config/peerOrganizations/org2/users/Admin@org2/msp
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org2/peers/peer1.org2/tls/ca.crt
         - name: FABRIC_CFG_PATH
           value: /etc/hyperledger/fabric
         - name: GODEBUG

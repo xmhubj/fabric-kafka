@@ -1,42 +1,43 @@
+#!/usr/bin/env bash
 
 KUBECONFIG_FOLDER=${PWD}/config
 JOB_FOLDER=${KUBECONFIG_FOLDER}/job
 
 echo "Deleting kubernetes jobs..."
-kubectl delete --ignore-not-found=true -f ${JOB_FOLDER}/chaincode_instantiate.yaml
-kubectl delete --ignore-not-found=true -f ${JOB_FOLDER}/chaincode_install.yaml
-kubectl delete --ignore-not-found=true -f ${JOB_FOLDER}/join_channel.yaml
-kubectl delete --ignore-not-found=true -f ${JOB_FOLDER}/create_channel.yaml
-kubectl delete --ignore-not-found=true -f ${JOB_FOLDER}/generateArtifactsJob.yaml
-kubectl delete --ignore-not-found=true -f ${JOB_FOLDER}/copyArtifactsJob.yaml
+kubectl delete --ignore-not-found=true -f ${JOB_FOLDER}
 
 echo "Deleting CA service and deployment..."
 CACFG_FOLDER=${KUBECONFIG_FOLDER}/ca
-kubectl delete --ignore-not-found=true -f ${CACFG_FOLDER}/ca-deployment.yaml
-kubectl delete --ignore-not-found=true -f ${CACFG_FOLDER}/ca-service.yaml
+kubectl delete --ignore-not-found=true -f ${CACFG_FOLDER}
 
 echo "Deleting Peers..."
 PEERCFG_FLODER=${KUBECONFIG_FOLDER}/peer
-kubectl delete --ignore-not-found=true -f ${PEERCFG_FLODER}/peer-deployment.yaml
-kubectl delete --ignore-not-found=true -f ${PEERCFG_FLODER}/peer-service.yaml
+kubectl delete --ignore-not-found=true -f ${PEERCFG_FLODER}
 
 echo "Deleting Oerderers..."
 ORDERERCFG_FOLDER=${KUBECONFIG_FOLDER}/orderer
-kubectl delete --ignore-not-found=true -f ${ORDERERCFG_FOLDER}/orderer-deployment.yaml
-kubectl delete --ignore-not-found=true -f ${ORDERERCFG_FOLDER}/orderer-service.yaml
+kubectl delete --ignore-not-found=true -f ${ORDERERCFG_FOLDER}
+
+echo "Deleting CLI deployment..."
+CLI_FOLDER=${KUBECONFIG_FOLDER}/cli
+kubectl delete --ignore-not-found=true -f ${CLI_FOLDER}
 
 echo "Deleting Kafka services..."
 KAFKACFG_FOLDER=${KUBECONFIG_FOLDER}/kafka
-kubectl delete --ignore-not-found=true -f ${KAFKACFG_FOLDER}/kafka-deployment.yaml
-kubectl delete --ignore-not-found=true -f ${KAFKACFG_FOLDER}/kafka-service.yaml
+kubectl delete --ignore-not-found=true -f ${KAFKACFG_FOLDER}
 
 echo "Deleting Zookeeper services..."
 ZKCFG_FOLDER=${KUBECONFIG_FOLDER}/zookeeper
-kubectl delete --ignore-not-found=true -f ${ZKCFG_FOLDER}/zk-deployment.yaml
-kubectl delete --ignore-not-found=true -f ${ZKCFG_FOLDER}/zk-service.yaml
+kubectl delete --ignore-not-found=true -f ${ZKCFG_FOLDER}
 
 echo "Deleting volumes..."
-kubectl delete --ignore-not-found=true -f ${KUBECONFIG_FOLDER}/createVolume.yaml
+kubectl delete --ignore-not-found=true -f ${KUBECONFIG_FOLDER}/kafka-pvcs.yaml
+kubectl delete --ignore-not-found=true -f ${KUBECONFIG_FOLDER}/kafka-pvs.yaml
+kubectl delete --ignore-not-found=true -f ${KUBECONFIG_FOLDER}/fabric-pvcs.yaml
+kubectl delete --ignore-not-found=true -f ${KUBECONFIG_FOLDER}/fabric-pvs.yaml
+
+echo "Deleting namespaces..."
+kubectl delete --ignore-not-found=true -f ${KUBECONFIG_FOLDER}/namespaces.yaml
 
 sleep 15
 

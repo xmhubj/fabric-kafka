@@ -1,0 +1,70 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: fabric
+  name: updateanchor 
+spec:
+  backoffLimit: 1
+  template:
+    metadata:
+      name: updateanchor
+    spec:
+      restartPolicy: "Never"
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: shared-pvc
+      containers:
+      - name: updateanchororg1
+        image: hyperledger/fabric-peer:x86_64-1.1.0
+        command: ["sh", "-c", "peer channel update -o ${ORDERER_URL} -c ${CHANNEL_NAME} -f /shared/Org1MSPanchors.tx"]
+        env:
+        - name: CHANNEL_NAME
+          value: mychannel
+        - name: ORDERER_URL
+          value: orderer0.ordererorg1:7050
+        - name: CORE_PEER_ADDRESS
+          value: peer0.org1:7051
+        - name: CORE_PEER_LOCALMSPID
+          value: Org1MSP
+        - name: CORE_LOGGING_LEVEL
+          value: debug
+        - name: CORE_PEER_MSPCONFIGPATH
+          value: /shared/crypto-config/peerOrganizations/org1/users/Admin@org1/msp
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org1/peers/peer0.org1/tls/ca.crt
+        - name: FABRIC_CFG_PATH
+          value: /etc/hyperledger/fabric
+        - name: GODEBUG
+          value: "netdns=go"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+
+      - name: updateanchororg2
+        image: hyperledger/fabric-peer:x86_64-1.1.0
+        command: ["sh", "-c", "peer channel update -o ${ORDERER_URL} -c ${CHANNEL_NAME} -f /shared/Org1MSPanchors.tx"]
+        env:
+        - name: CHANNEL_NAME
+          value: mychannel
+        - name: ORDERER_URL
+          value: orderer0.ordererorg1:7050
+        - name: CORE_PEER_ADDRESS
+          value: peer0.org2:7051
+        - name: CORE_PEER_LOCALMSPID
+          value: Org2MSP
+        - name: CORE_LOGGING_LEVEL
+          value: debug
+        - name: CORE_PEER_MSPCONFIGPATH
+          value: /shared/crypto-config/peerOrganizations/org2/users/Admin@org2/msp
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org2/peers/peer0.org2/tls/ca.crt
+        - name: FABRIC_CFG_PATH
+          value: /etc/hyperledger/fabric
+        - name: GODEBUG
+          value: "netdns=go"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+

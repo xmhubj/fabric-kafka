@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: zoo
+  namespace: kafka
+spec:
+  serviceName: "zoo"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: zookeeper
+        image: hyperledger/fabric-zookeeper
+        # Modify the defautl Entrypoint built in docker image
+        command: ["/bin/sh"]
+        args: ["-c", "export ZOO_MY_ID=${HOSTNAME##*-}; /docker-entrypoint.sh zkServer.sh start-foreground"]
+        env:
+        # The ordinal index for a statefulset is not available
+        # Git issue:
+        #   https://github.com/kubernetes/kubernetes/issues/40651
+        #- name: ZOO_MY_ID
+        #  value: "0"
+        # 
+        # Have to use FQDN here, so that zookeeper can resolve the hostname qucikly
+        # without waiting for K8S DNS service.
+        # In most case, leader election binding may fail, if we using zoo-0.zoo, zoo-1.zoo
+        # zoo-2.zoo as the ZOO_SERVERS.
+        - name: ZOO_SERVERS
+          value: server.0=zoo-0.zoo.kafka.svc.cluster.local:2888:3888 server.1=zoo-1.zoo.kafka.svc.cluster.local:2888:3888 server.2=zoo-2.zoo.kafka.svc.cluster.local:2888:3888
+        ports:
+        - containerPort: 2181
+          name: client
+        - containerPort: 2888
+          name: peer
+        - containerPort: 3888
+          name: leader-election

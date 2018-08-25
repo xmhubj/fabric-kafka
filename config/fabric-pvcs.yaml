@@ -1,0 +1,64 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: shared-pvc
+  namespace: fabric
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 19Gi
+  selector:
+    matchLabels:
+      name: sharedvolume
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: shared-pvc
+  namespace: org1
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 19Gi
+  selector:
+    matchLabels:
+      name: shared-org1
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: shared-pvc
+  namespace: org2
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 19Gi
+  selector:
+    matchLabels:
+      name: shared-org2
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: shared-pvc
+  namespace: ordererorg1
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 19Gi
+  selector:
+    matchLabels:
+      name: shared-ordererorg1
+

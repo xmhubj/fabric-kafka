@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kafka
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: org1
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: org2
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ordererorg1
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: fabric
