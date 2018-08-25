@@ -10,17 +10,21 @@ The Hyperledger Fabric has introduced Kafka as it’s primary consensus mechanis
 
 A simple Fabric network configuration:
 
+- 2 CAs, 1 for each orgs
+- 2 CLI, 1 for each orgs
 - 3 Orderers
 - 2 Organizations
-- 4 peers, 2 for each organizations
+- 4 peers, 2 for each orgs
 - 4 Kafka broker instances
 - 3 Zookeeper instances
+
+## How to use
 
 
 ## References
 
 - [hyperledger/fabric](https://github.com/hyperledger/fabric/tree/release-1.2/examples/e2e_cli)
 
-- [skcript/Kafka-Fabric-Network](https://github.com/skcript/Kafka-Fabric-Network/edit/master/README.md)
+- [hainingzhang/articles](https://github.com/hainingzhang/articles)
 
 - [IBM/blockchain-network-on-kubernetes](https://github.com/IBM/blockchain-network-on-kubernetes/tree/master/images)

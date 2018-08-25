@@ -138,6 +138,10 @@ echo -e "\nCreating Fabric peer nodes..."
 kubectl create -f ${KUBECONFIG_FOLDER}/peer
 sleep 5
 
+echo -e "\nCreating Fabric CLI nodes..."
+kubectl create -f ${KUBECONFIG_FOLDER}/cli
+sleep 5
+
 echo "Checking if all deployments are ready"
 
 NUMPENDING=$(kubectl get deployments --all-namespaces -l app=hyperledger | awk '{print $6}' | grep 0 | wc -l | awk '{print $1}')
