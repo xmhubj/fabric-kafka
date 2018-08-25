@@ -44,7 +44,7 @@ spec:
 
       - name: updateanchororg2
         image: hyperledger/fabric-peer:x86_64-1.1.0
-        command: ["sh", "-c", "peer channel update -o ${ORDERER_URL} -c ${CHANNEL_NAME} -f /shared/Org1MSPanchors.tx"]
+        command: ["sh", "-c", "peer channel update -o ${ORDERER_URL} -c ${CHANNEL_NAME} -f /shared/Org2MSPanchors.tx"]
         env:
         - name: CHANNEL_NAME
           value: mychannel
