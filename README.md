@@ -1,6 +1,6 @@
 # Fabric Network with Kafka
 
-Hyperledger Fabric Network with Kafka Consensus on Kubernetes.
+A fully automated way to setup Hyperledger Fabric Network with Kafka Consensus on Kubernetes.
 
 ## Introduction
 
