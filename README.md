@@ -60,7 +60,7 @@ $ peer chaincode query -C mychannel -n cc -c '{"Args":["query","a"]}'
 
 - Execute action invoke, which will transfer `10` from `a` to `b`
 ```
-$ peer chaincode invoke -o orderer0.orgorderer1:7050   -C mychannel -n cc -c '{"Args":["invoke","a","b","10"]}'
+$ peer chaincode invoke -o orderer0.ordererorg1:7050   -C mychannel -n cc -c '{"Args":["invoke","a","b","10"]}'
 ```
 
 - Verify the value of `a`, which should be `90` aftering 
