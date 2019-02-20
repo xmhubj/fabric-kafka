@@ -83,16 +83,16 @@ kubectl cp -n fabric ./artifacts $pod:/shared/
 
 echo "Waiting for 10 more seconds for copying artifacts to avoid any network delay"
 sleep 10
-JOBSTATUS=$(kubectl get jobs -n fabric |grep "copyartifacts" |awk '{print $3}')
-while [ "${JOBSTATUS}" != "1" ]; do
+JOBSTATUS=$(kubectl get jobs -n fabric |grep "copyartifacts" |awk '{print $2}')
+while [ "${JOBSTATUS}" != "1/1" ]; do
     echo "Waiting for copyartifacts job to complete"
     sleep 1;
-    PODSTATUS=$(kubectl get pods -n fabric | grep "copyartifacts" | awk '{print $4}')
+    PODSTATUS=$(kubectl get pods -n fabric | grep "copyartifacts" | awk '{print $3}')
         if [ "${PODSTATUS}" == "Error" ]; then
             echo "There is an error in copyartifacts job. Please check logs."
             exit 1
         fi
-    JOBSTATUS=$(kubectl get jobs -n fabric |grep "copyartifacts" |awk '{print $3}')
+    JOBSTATUS=$(kubectl get jobs -n fabric |grep "copyartifacts" |awk '{print $2}')
 done
 echo "Copy artifacts job completed"
 
@@ -102,16 +102,16 @@ echo "Copy artifacts job completed"
 echo -e "\nGenerating the required artifacts for Blockchain network"
 kubectl create -f ${KUBECONFIG_FOLDER}/job/1gen-artifacts.yaml
 
-JOBSTATUS=$(kubectl get jobs -n fabric |grep utils|awk '{print $3}')
-while [ "${JOBSTATUS}" != "1" ]; do
+JOBSTATUS=$(kubectl get jobs -n fabric |grep utils|awk '{print $2}')
+while [ "${JOBSTATUS}" != "1/1" ]; do
     echo "Waiting for generateArtifacts job to complete"
     sleep 1;
-    UTILSSTATUS=$(kubectl get pods -n fabric | grep "utils" | awk '{print $4}')
+    UTILSSTATUS=$(kubectl get pods -n fabric | grep "utils" | awk '{print $3}')
     if [ "${UTILSSTATUS}" == "Error" ]; then
             echo "There is an error in utils job. Please check logs."
             exit 1
     fi
-    JOBSTATUS=$(kubectl get jobs -n fabric |grep utils|awk '{print $3}')
+    JOBSTATUS=$(kubectl get jobs -n fabric |grep utils|awk '{print $2}')
 done
 
 
@@ -159,15 +159,15 @@ sleep 30
 echo -e "\nCreating channel transaction artifact and a channel"
 kubectl create -f ${KUBECONFIG_FOLDER}/job/2create-channel.yaml
 
-JOBSTATUS=$(kubectl get jobs -n fabric |grep createchannel |awk '{print $3}')
-while [ "${JOBSTATUS}" != "1" ]; do
+JOBSTATUS=$(kubectl get jobs -n fabric |grep createchannel |awk '{print $2}')
+while [ "${JOBSTATUS}" != "1/1" ]; do
     echo "Waiting for createchannel job to be completed"
     sleep 1;
-    if [ "$(kubectl get pods -n fabric | grep createchannel | awk '{print $4}')" == "Error" ]; then
+    if [ "$(kubectl get pods -n fabric | grep createchannel | grep "Error" | wc -l)" -gt "0" ]; then
         echo "Create Channel Failed"
         exit 1
     fi
-    JOBSTATUS=$(kubectl get jobs -n fabric |grep createchannel |awk '{print $3}')
+    JOBSTATUS=$(kubectl get jobs -n fabric |grep createchannel |awk '{print $2}')
 done
 echo "Create Channel Completed Successfully"
 
@@ -176,15 +176,15 @@ echo "Create Channel Completed Successfully"
 echo -e "\nCreating joinchannel job"
 kubectl create -f ${KUBECONFIG_FOLDER}/job/3join-channel.yaml
 
-JOBSTATUS=$(kubectl get jobs -n fabric |grep joinchannel |awk '{print $3}')
-while [ "${JOBSTATUS}" != "1" ]; do
+JOBSTATUS=$(kubectl get jobs -n fabric |grep joinchannel |awk '{print $2}')
+while [ "${JOBSTATUS}" != "1/1" ]; do
     echo "Waiting for joinchannel job to be completed"
     sleep 1;
-    if [ "$(kubectl get pods -n fabric | grep joinchannel | awk '{print $4}')" == "Error" ]; then
+    if [ "$(kubectl get pods -n fabric | grep joinchannel | awk '{print $3}')" == "Error" ]; then
         echo "Join Channel Failed"
         exit 1
     fi
-    JOBSTATUS=$(kubectl get jobs -n fabric |grep joinchannel |awk '{print $3}')
+    JOBSTATUS=$(kubectl get jobs -n fabric |grep joinchannel |awk '{print $2}')
 done
 echo "Join Channel Completed Successfully"
 
@@ -192,15 +192,15 @@ echo "Join Channel Completed Successfully"
 echo -e "\nCreatiing updateanchor job"
 kubectl create -f ${KUBECONFIG_FOLDER}/job/4update-anchor.yaml
 
-BSTATUS=$(kubectl get jobs -n fabric |grep updateanchor |awk '{print $3}')
-while [ "${JOBSTATUS}" != "1" ]; do
+BSTATUS=$(kubectl get jobs -n fabric |grep updateanchor |awk '{print $2}')
+while [ "${JOBSTATUS}" != "1/1" ]; do
     echo "Waiting for updateanchor job to be completed"
     sleep 1;
-    if [ "$(kubectl get pods -n fabric | grep updateanchor | awk '{print $4}')" == "Error" ]; then
+    if [ "$(kubectl get pods -n fabric | grep updateanchor | awk '{print $3}')" == "Error" ]; then
         echo "Join Channel Failed"
         exit 1
     fi
-    JOBSTATUS=$(kubectl get jobs -n fabric |grep updateanchor |awk '{print $3}')
+    JOBSTATUS=$(kubectl get jobs -n fabric |grep updateanchor |awk '{print $2}')
 done
 echo "Update Channel Anchor Peer  Completed Successfully"
 
@@ -209,15 +209,15 @@ echo "Update Channel Anchor Peer  Completed Successfully"
 echo -e "\nCreating installchaincode job"
 kubectl create -f ${KUBECONFIG_FOLDER}/job/5install-chaincode.yaml
 
-JOBSTATUS=$(kubectl get jobs -n fabric |grep chaincodeinstall |awk '{print $3}')
-while [ "${JOBSTATUS}" != "1" ]; do
+JOBSTATUS=$(kubectl get jobs -n fabric |grep chaincodeinstall |awk '{print $2}')
+while [ "${JOBSTATUS}" != "1/1" ]; do
     echo "Waiting for chaincodeinstall job to be completed"
     sleep 1;
-    if [ "$(kubectl get pods -n fabric | grep chaincodeinstall | awk '{print $4}')" == "Error" ]; then
+    if [ "$(kubectl get pods -n fabric | grep chaincodeinstall | awk '{print $3}')" == "Error" ]; then
         echo "Chaincode Install Failed"
         exit 1
     fi
-    JOBSTATUS=$(kubectl get jobs -n fabric |grep chaincodeinstall |awk '{print $3}')
+    JOBSTATUS=$(kubectl get jobs -n fabric |grep chaincodeinstall |awk '{print $2}')
 done
 echo "Chaincode Install Completed Successfully"
 
@@ -227,15 +227,15 @@ echo -e "\nCreating chaincodeinstantiate job"
 echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/chaincode_instantiate.yaml"
 kubectl create -f ${KUBECONFIG_FOLDER}/job/6instantiate-chaincode.yaml
 
-JOBSTATUS=$(kubectl get jobs -n fabric |grep chaincodeinstantiate |awk '{print $3}')
-while [ "${JOBSTATUS}" != "1" ]; do
+JOBSTATUS=$(kubectl get jobs -n fabric |grep chaincodeinstantiate |awk '{print $2}')
+while [ "${JOBSTATUS}" != "1/1" ]; do
     echo "Waiting for chaincodeinstantiate job to be completed"
     sleep 1;
-    if [ "$(kubectl get pods -n fabric | grep chaincodeinstantiate | awk '{print $4}')" == "Error" ]; then
+    if [ "$(kubectl get pods -n fabric | grep chaincodeinstantiate | awk '{print $3}')" == "Error" ]; then
         echo "Chaincode Instantiation Failed"
         exit 1
     fi
-    JOBSTATUS=$(kubectl get jobs -n fabric |grep chaincodeinstantiate |awk '{print $3}')
+    JOBSTATUS=$(kubectl get jobs -n fabric |grep chaincodeinstantiate |awk '{print $2}')
 done
 echo "Chaincode Instantiation Completed Successfully"
 
