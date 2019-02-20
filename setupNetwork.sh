@@ -180,7 +180,7 @@ JOBSTATUS=$(kubectl get jobs -n fabric |grep joinchannel |awk '{print $2}')
 while [ "${JOBSTATUS}" != "1/1" ]; do
     echo "Waiting for joinchannel job to be completed"
     sleep 1;
-    if [ "$(kubectl get pods -n fabric | grep joinchannel | awk '{print $3}')" == "Error" ]; then
+    if [ "$(kubectl get pods -n fabric | grep joinchannel | grep "Error" | wc -l)" -gt "0" ]; then
         echo "Join Channel Failed"
         exit 1
     fi
@@ -196,7 +196,7 @@ BSTATUS=$(kubectl get jobs -n fabric |grep updateanchor |awk '{print $2}')
 while [ "${JOBSTATUS}" != "1/1" ]; do
     echo "Waiting for updateanchor job to be completed"
     sleep 1;
-    if [ "$(kubectl get pods -n fabric | grep updateanchor | awk '{print $3}')" == "Error" ]; then
+    if [ "$(kubectl get pods -n fabric | grep updateanchor | grep "Error" | wc -l)" -gt "0" ]; then
         echo "Join Channel Failed"
         exit 1
     fi
@@ -213,7 +213,7 @@ JOBSTATUS=$(kubectl get jobs -n fabric |grep chaincodeinstall |awk '{print $2}')
 while [ "${JOBSTATUS}" != "1/1" ]; do
     echo "Waiting for chaincodeinstall job to be completed"
     sleep 1;
-    if [ "$(kubectl get pods -n fabric | grep chaincodeinstall | awk '{print $3}')" == "Error" ]; then
+    if [ "$(kubectl get pods -n fabric | grep chaincodeinstall | grep "Error" | wc -l)" -gt "0" ]; then
         echo "Chaincode Install Failed"
         exit 1
     fi
